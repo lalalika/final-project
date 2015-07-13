@@ -1,0 +1,85 @@
+<html>
+	<head>
+		<title>The Amazing Animal Game</title>
+		<script src="http://cloud.github.com/downloads/processing-js/processing-js/processing-1.4.1.min.js"></script>
+		<script type="text/processing" data-processing-target="mycanvas">
+		
+		
+		var numOfBuilding;
+		var buildingX = [];
+		numOfBuilding = 1000;
+		var w; 
+		
+		void setup(){
+			size(800,600);
+			
+			var x = -100;
+		
+			
+			for (var i = 0; i < numOfBuilding; i++)	{
+				
+				w =  round(random(200,300));						//(positionX, positionY, red, green, blue, speed, width, height)
+				buildingX.push(new Building(x, 600, 255, 255, 255, 3, w, round(random(50,500))));
+				x = x + w;
+			
+			} //end of for loop
+			
+		} //setup
+		
+		void draw(){
+				background(17,9,89);
+				//noStroke();
+				for (var i = 0; i < buildingX.length; i++){			
+						//var current_building = buildingX[i];
+						//current_building.drawBuilding();
+						//current_building.moveBuilding();
+						buildingX[i].drawBuilding();
+						buildingX[i].moveBuilding();
+					}
+			}//draw		
+	
+		class Building{
+				var x;
+				var y;
+				var r;
+				var g;
+				var b;
+				var s;
+				var w;
+				var h;
+			
+				//constructor has same name as the class
+				Building(positionX, positionY, red, green, blue, -speed, width, height){
+						//fill up variables with values
+						x = positionX;
+						y = positionY;
+						r = red;
+						b = blue;
+						g = green;
+						s = -speed;
+						w = width;
+						h = height; 
+						}
+		
+				void drawBuilding()	{
+					noStroke();
+					fill(r,g,b);
+				
+					
+					ellipse(x, y, w, h);
+					
+					
+				}
+		
+				void moveBuilding()	{
+					x = x + s;
+				}//end of moverect
+			}//end of class building
+			
+			
+		</script>
+	</head>
+	<body>
+		<canvas id="mycanvas"></canvas>
+	</body>
+</html>
