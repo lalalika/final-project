@@ -1,0 +1,72 @@
+
+		var star1;
+		var numberOfStars = [];
+		var w;
+		void setup()
+			{
+			size(800, 600);
+			var x = -50;
+			
+			for (var i = 0; i < 1000; i++){
+				w =  round(random(5,20));
+				star1 = new Star1(x, random(100, 300), 255 , 255, 0, w, 2, 0);
+				numberOfStars.push(star1);
+				x = x + 7*w;
+		
+			}
+			
+			
+			}
+			
+			void draw(){  
+				background(17, 9, 89);
+				
+				for(var i = 0; i < numberOfStars.length; i++){
+					var each_star = numberOfStars[i];
+					each_star.drawStar1();
+					each_star.moveStar1();
+					
+				}
+				star1.moveStar1();
+			}
+			
+	
+			
+				class Star1{
+				var positionX;
+				var positionY;
+				var r;
+				var g;
+				var b;
+				var size;
+				var speedX;
+				var speedY;
+				
+				// constructor has same name as the class
+				Star1(x, y, red, green, blue, s, speedx, speedy){
+					// job of constructor is to give initial values to variables
+					positionX = x;
+					positionY = y;
+					r = red;
+					b = blue;
+					g = green;
+					size = s;
+					speedX = speedx;
+					speedY = speedy;
+				}
+				
+				void drawStar1(){
+					fill(r, g, b);
+					ellipse(positionX, positionY, size, size);
+					
+				}
+				
+				void moveStar1(){
+					positionX = positionX - speedX;
+				
+
+					
+					
+				}
+			}
+		
