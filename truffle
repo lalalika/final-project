@@ -1,0 +1,146 @@
+<html>
+	<head>
+		<title>The Amazing Animal Game</title>
+		<script src="http://cloud.github.com/downloads/processing-js/processing-js/processing-1.4.1.min.js"></script>
+		<script src="testMove.js"></script>
+		<script type="text/processing" data-processing-target="mycanvas">
+		
+		
+		
+		var numOfSnows;
+		var snowX = [];
+		numOfSnows = 1000;
+		var w; 
+		var star1;
+		var numberOfStars = [];
+		var l;
+	
+		void setup(){
+			size(1500,600);
+			
+			var x = -100;
+			var m = -50;
+			
+			for (var i = 0; i < numOfSnows; i++)	{
+				
+				w =  round(random(200,300));						//(positionX, positionY, red, green, blue, speed, width, height)
+				snowX.push(new Snow(x, 600, 255, 255, 255, 3, w, round(random(50,500))));
+				x = x + w;
+				}
+			
+			
+			for (var i = 0; i < 1000; i++){
+				l =  round(random(5,20));
+				star1 = new Star1(m, random(100, 400), 255 , 255, 0, l, 2, 0);
+				numberOfStars.push(star1);
+				m = m + 7*l;
+			
+			} //end of for loop
+			
+		} //setup
+		
+		void draw(){
+				background(17,9,89);
+				//noStroke();
+				for (var i = 0; i < snowX.length; i++){			
+					
+						snowX[i].drawSnow();
+						snowX[i].moveSnow();
+					}
+				for(var i = 0; i < numberOfStars.length; i++){
+					var each_star = numberOfStars[i];
+					each_star.drawStar1();
+					each_star.moveStar1();
+					
+				}
+				star1.moveStar1();	
+					
+				
+			}//draw		
+	
+		class Snow{
+				var x;
+				var y;
+				var r;
+				var g;
+				var b;
+				var s;
+				var w;
+				var h;
+			
+				//constructor has same name as the class
+				Snow(positionX, positionY, red, green, blue, -speed, width, height){
+						//fill up variables with values
+						x = positionX;
+						y = positionY;
+						r = red;
+						b = blue;
+						g = green;
+						s = -speed;
+						w = width;
+						h = height; 
+						}
+		
+				void drawSnow()	{
+					noStroke();
+					fill(r,g,b);
+				
+					
+					ellipse(x, y, w, h);
+					
+					
+				}
+		
+				void moveSnow()	{
+					x = x + s;
+				}//end of moverect
+			}//end of class building
+			
+				class Star1{
+				var positionX;
+				var positionY;
+				var r;
+				var g;
+				var b;
+				var size;
+				var speedX;
+				var speedY;
+				
+				// constructor has same name as the class
+				Star1(x, y, red, green, blue, s, speedx, speedy){
+					// job of constructor is to give initial values to variables
+					positionX = x;
+					positionY = y;
+					r = red;
+					b = blue;
+					g = green;
+					size = s;
+					speedX = speedx;
+					speedY = speedy;
+				}
+				
+				void drawStar1(){
+					fill(r, g, b);
+					ellipse(positionX, positionY, size, size);
+					
+				}
+				
+				void moveStar1(){
+					positionX = positionX - speedX;
+				
+
+					
+					
+				}
+			}
+		
+	
+			
+			
+		</script>
+	</head>
+	<body  onload="docReady();" onkeydown="" onkeyup="">
+		<canvas id="mycanvas" z-index="-1" position="absolute"></canvas>
+		<img id="image1" z-index="1" src="Chinchilla.png" style="position:absolute;left:0; top:0;" height="100" width="139">
+	</body>
+</html>
