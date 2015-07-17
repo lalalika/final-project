@@ -1,0 +1,89 @@
+			function leftArrowPressed() {
+            var element = document.getElementById("image1");
+            element.style.left = parseInt(element.style.left) - 5 + 'px';
+            }
+
+            function rightArrowPressed() {
+            var element = document.getElementById("image1");
+            element.style.left = parseInt(element.style.left) + 5 + 'px';
+			
+            }
+   
+   
+   
+   
+            
+    function upArrowPressed() {
+ 		
+ 	var x = 50;
+
+	var interval = setInterval(function() {
+    x++;
+    image1.style.top = 50 - (-0.1 * (0.5*x) * (x - 50)) + 'px';
+
+    if(x >= 100) clearInterval(interval);
+	}, 20);
+	
+	var element = document.getElementById("image2");
+    element.style.left = parseInt(element.style.left) + 50 + 'px';
+
+          
+    }
+
+           //  function upArrowPressed() {
+//             var element = document.getElementById("image1");
+//             element.style.top = parseInt(element.style.top) - 5 + 'px';
+//             }
+
+            // function downArrowPressed() {
+//             var element = document.getElementById("image1");
+//             element.style.top = parseInt(element.style.top) + 5 + 'px';
+//             }
+
+            function moveSelection(evt) {
+                switch (evt.keyCode) {
+                    case 37:
+                    leftArrowPressed();
+                    break;
+                    case 39:
+                    rightArrowPressed();
+                    break;
+                    case 38:
+                    upArrowPressed();
+                    break;
+                    case 40:
+                    downArrowPressed();
+                    break;
+                    }
+                };
+
+        function docReady()
+        {
+          
+          window.addEventListener('keydown', moveSelection);
+        }
+        
+        
+ this.addEventListener("load", doSomething, true);       
+        
+	function getPosition(element) {
+    var xPosition = 0;
+    var yPosition = 0;
+  
+    while(element) {
+        xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+        yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+        element = element.offsetParent;
+    }
+    return { x: xPosition, y: yPosition };
+}
+
+function doSomething(e){
+	var myElement = document.querySelector("#image1"); 
+	var position = getPosition(myElement);
+	alert("The image is located at: " + position.x + ", " + position.y);
+}
+
+
+
+
