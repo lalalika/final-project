@@ -1,0 +1,185 @@
+<html>
+	<head>
+		<title>The Amazing Animal Game</title>
+		<script src="http://cloud.github.com/downloads/processing-js/processing-js/processing-1.4.1.min.js"></script>
+		
+		<script type="text/processing" data-processing-target="mycanvas">
+		var numOfSnows;
+		var snowX = [];
+		numOfSnows = 1000;
+		var widthSnow;
+		var star1;
+		var starList = [];
+	
+		var positionX;
+		var positionY;
+		var x;
+   		var score = 0;
+   
+            
+ 	void setup() {
+		    size(1000, 400);
+
+		    var xSnow = -100;
+		    var xStar = -50;
+		    var yStar = 100;
+		
+
+		    for (var i = 0; i < numOfSnows; i++) {
+			
+		        widthSnow = round(random(200, 300)); 
+		        				//(positionX, positionY, red, green, blue, speed, width, height)
+		        snowX.push(new Snow(xSnow, 400, 255, 255, 255, 3, widthSnow, round(random(200, 550))));
+		        xSnow = xSnow + widthSnow;
+		    }
+
+
+		    for (var i = 0; i < 1000; i++) {
+
+		   
+		        			//(positionX, positionY, r, g, b, size, speed)
+		        star1 = new Star1(xStar, yStar, 255, 255, 0, 15, 3);
+		        starList.push(star1);
+		        xStar = xStar + 150;   //makes stars appear not on top of each other
+				
+		      
+		      
+
+
+		    } //end of for loop
+
+		} //setup
+
+		void draw() {
+		    background(17, 9, 89);
+
+		    for (var i = 0; i < snowX.length; i++) {
+
+		        snowX[i].drawSnow();
+		        snowX[i].moveSnow();
+
+		    }
+		    for (var i = 0; i < starList.length; i++) {
+		        var each_star = starList[i];
+		        each_star.drawStar1();
+		        each_star.moveStar1();
+
+
+		    }
+
+
+
+
+		} //draw		
+
+		class Snow {
+		    var x;
+		    var y;
+		    var r;
+		    var g;
+		    var b;
+		    var s;
+			var w;
+		    var h;
+
+		    //constructor has same name as the class
+		    Snow(positionX, positionY, red, green, blue, -speed, width, height) {
+		        //fill up variables with values
+		        x = positionX;
+		        y = positionY;
+		        r = red;
+		        b = blue;
+		        g = green;
+		        s = -speed;
+				w = width;
+		        h = height;
+		    }
+
+		    void drawSnow() {
+		        noStroke(); //takes off outline
+		        fill(r, g, b);
+				ellipse(x, y, w, h);
+
+
+		    }
+		    void moveSnow()	{
+					x = x + s;
+				}
+
+
+		} //end of class Snow1
+
+		class Star1 {
+		    var positionX;
+		    var positionY;
+		    var r;
+		    var g;
+		    var b;
+		    var size;
+		    var speedX;
+
+
+
+		    // constructor has same name as the class
+		    Star1(x, y, red, green, blue, s, xSpeed) {
+		        // job of constructor is to give initial values to variables
+		        positionX = x;
+		        positionY = y;
+		        r = red;
+		        b = blue;
+		        g = green;
+		        size = s;
+		        speedX = xSpeed;
+
+
+		    }
+
+		    void drawStar1() {
+		        fill(r, g, b);
+		        ellipse(positionX, positionY, size, size);
+
+		    }
+		    	void moveStar1(){
+					positionX = positionX - speedX;
+					}
+
+		}
+
+        void chinchillaMoved(image1Pos) {
+      
+           
+           for (i=0; i<starList.length; i++){
+                 var star = starList[i];
+                
+                 
+                 if (image1Pos.y >= star.positionY && (image1Pos.x >= (star.positionX)+8 && image1Pos.x <= (star.positionX+11))){
+                 
+                 star.size = 0;
+                     if (star.size == 0){
+                 	
+                 	score = score + 1;
+                 	
+                 
+                 	}
+                 	
+                 }
+             
+           
+              
+        }
+        }
+ 
+			
+
+		</script>
+		<script src="testMove.js"></script>
+
+	</head>
+	<body  onload="docReady();" onkeydown="" onkeyup="">
+		<canvas id="mycanvas" z-index="-1" position="absolute"></canvas>
+		
+		<img id="image1" z-index="1" src="Chinchilla.png" style="position:absolute;left:150; top:300;" height="100" width="139">
+		<div><img id="image2" z-index="1" src="GERTRUDE_3.png" style="position:absolute;left:75; top:500;" height="100" width="139"></div>
+	</body>
+
+</html>
