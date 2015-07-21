@@ -1,0 +1,288 @@
+<html>
+	<head>
+		<title>Gimmee raisins o Journey to Raisin Castle</title>
+		
+		<script src="http://cloud.github.com/downloads/processing-js/processing-js/processing-1.4.1.min.js"></script>
+		
+		<script type="text/processing" data-processing-target="mycanvas">
+		var numOfSnows;
+		var snowX = [];
+		numOfSnows = 100;
+		var widthSnow;
+		var star1;
+		var starList = [];
+	
+		var positionX;
+		var positionY;
+		var x;
+   		var score = 0;
+		var cherry = 1;
+   
+            
+ 	void setup() {
+		    size(1599, 500);
+		
+		    var xSnow = -100;
+		    var xStar = -50;
+	
+		
+
+		    for (var i = 0; i < numOfSnows; i++) {
+			
+		        widthSnow = round(random(200, 300)); 
+		        				//(positionX, positionY, red, green, blue, speed, width, height)
+		        snowX.push(new Snow(xSnow, 500, 255, 182, 193, 3, widthSnow, random(200, 550)));
+		        xSnow = xSnow + widthSnow;
+		    }
+
+
+		    for (var i = 0; i < 1000; i++) {
+
+		   
+		        			//(positionX, positionY, r, g, b, size, speed)
+		        star1 = new Star1(xStar, random(100, 175), 102, 0, 102, random(15, 25), 3);
+		        starList.push(star1);
+		        xStar = xStar + 150;   //makes stars appear not on top of each other
+				
+		      
+		      
+
+
+		    } //end of for loop
+
+		} //setup
+
+		void draw() {
+		    background(102, 178, 255);
+			 text("Score: " + score, 20, 20);
+		    for (var i = 0; i < snowX.length; i++) {
+
+		        snowX[i].drawSnow();
+		        snowX[i].moveSnow();
+
+		    }
+		    for (var i = 0; i < starList.length; i++) {
+		        var each_star = starList[i];
+		        each_star.drawStar1();
+		        each_star.moveStar1();
+
+
+		    }
+	if (score == 3){
+		noLoop();
+		 background(102, 178, 255);
+		 hideImage('image1');
+		 hideImage('image2');
+		 showImage('image');
+		 showImage('image3');
+		 showImage('image4');
+		 showImage('support');
+		}
+	
+		else if(image1.x <= image2.x + 120 && image1.x >= image2.x - 120 && image1.y >= image2.y) {
+			noLoop();
+			background(102, 178, 255);
+			showImage('image5');
+			hideImage('image2');
+			hideImage('image3');
+			hideImage('image4');
+			hideImage('image1'); 
+			hideImage('support');
+		}	
+			else {
+				loop();
+				showImage('image1');
+				hideImage('image');
+				hideImage('image3');
+				hideImage('image4');
+				hideImage('image5');
+				hideImage('support');
+				}
+			
+			
+			
+		
+		
+
+
+		} //draw	
+
+function showImage(id) {
+    var img = document.getElementById(id);
+    img.style.visibility = 'visible';
+	}
+		
+function hideImage(id) {
+    var img = document.getElementById(id);
+    img.style.visibility = 'hidden';
+	}
+		
+
+		class Snow {
+		    var x;
+		    var y;
+		    var r;
+		    var g;
+		    var b;
+		    var s;
+			var w;
+		    var h;
+
+		    //constructor has same name as the class
+		    Snow(positionX, positionY, red, green, blue, -speed, width, height) {
+		        //fill up variables with values
+		        x = positionX;
+		        y = positionY;
+		        r = red;
+		        b = blue;
+		        g = green;
+		        s = -speed;
+				w = width;
+		        h = height;
+		    }
+
+		    void drawSnow() {
+		        noStroke(); //takes off outline
+		        fill(r, g, b);
+				ellipse(x, y, w, h);
+
+
+		    }
+		    void moveSnow()	{
+					x = x + s;
+				}
+
+
+		} //end of class Snow1
+
+		class Star1 {
+		    var positionX;
+		    var positionY;
+		    var r;
+		    var g;
+		    var b;
+		    var size;
+		    var speedX;
+
+		    // constructor has same name as the class
+		    Star1(x, y, red, green, blue, s, xSpeed) {
+		        // job of constructor is to give initial values to variables
+		        positionX = x;
+		        positionY = y;
+		        r = red;
+		        b = blue;
+		        g = green;
+		        size = s;
+		        speedX = xSpeed;
+
+
+		    }
+
+		    void drawStar1() {
+		        fill(r, g, b);
+		        ellipse(positionX, positionY, size*2, size*1.2);
+
+		    }
+		    
+		    void moveStar1(){
+				positionX = positionX - speedX;
+			}
+
+		} //END OF STAR CLASS
+
+        void chinchillaMoved(image1Pos) {
+      
+           
+           for (i=0; i<starList.length; i++){
+                 var star = starList[i];
+                           
+                 if (image1Pos.y >= star.positionY && (image1Pos.x >= (star.positionX)-1 && image1Pos.x <= (star.positionX+1))){
+                 	star.size = 0;
+                     if (star.size == 0){	
+                 		score = score + 1;         	 
+                 	} 	
+                 }
+                				      
+        	 }//end of for loop         
+         
+        }//end of function
+  
+
+		</script>
+		<script src="proyecto1.js"></script>
+		
+		
+		
+		<style>
+			body {
+				background-color:#110959
+				}
+
+			
+			p {
+				color: white;
+				font-size: 30px;
+				padding-top: 25px;
+				padding-right: 50px;
+				padding-bottom: 25px;
+				padding-left: 50px;
+			}
+			
+<!-- 			display:inline-block; -->
+			a {
+			font-size: 20 px;
+			/* unvisited link */
+			a:link {
+				color: white;
+			}
+
+			/* visited link */
+			a:visited {
+				color: #00FF00;
+			}
+
+			/* mouse over link */
+			a:hover {
+				color: #FF00FF;
+			}
+
+			/* selected link */
+			a:active {
+				color: #0000FF;
+			}
+			}
+			
+			
+	#mycanvas {
+		width: 100%;
+		text-align:center;
+		}
+
+	canvas {
+		display: inline;
+		}
+		</style>
+	
+	</head>
+	<body  onload="docReady();" onkeydown="" onkeyup="">
+	
+			<canvas id="mycanvas" z-index="-1" position="absolute"></canvas>
+
+		<img id="image5" z-index="1" src="Loser.png" style="position:absolute;left:390; top:100;" height="500" width="550">
+		<img id="image4" z-index="1" src="GERTRUDEmit.png" style="position:absolute;left:490; top:51;" height="100" width="150">
+		<img id="image3" z-index="1" src="GameOver.png" style="position:absolute;left:600; top:100;" height="300" width="300">
+		<img id="image" z-index="1" src="raisin.png" style="position:absolute;left:200; top:100;" height="300" width="300">
+		<img id="image1" z-index="1" src="Chinchilla.png" style="position:absolute;left:300; top:430;" height="100" width="139">
+		<div><img id="image2" z-index="1" src="Gertrude.png" style="position:absolute;left:79; top:430;" height="100" width="150"></div>
+	</body>
+	
+<p> This is the Shark "Attack" the game! You are the chinchilla. Use the arrow keys to move. The up key jumps. Go right with the right. Go left with the left, but that's kind of unnecessary. No down. 100 raisins equals a victory. Jump to get them. Avoid the shark or you will faint. It will "get" you. </p> 
+<div id = "support"">
+<p> Just like Gertrude the shark, sharks are not inherently evil. We need to fix the misconceptions people have about these animals! We must support sharks as they are endangered, as well other endangered species - chinchillas too! Click on the links below to sign petitions and learn about the cause. Anyone can help make change. </p>
+
+  <p><a href="https://www.change.org/search?q=sharks"">Visit this website to make change by signing petitions.</a></p>
+  <p><a href="http://www.seethewild.org/shark-threats/">Read this article to learn more about shark endangerment.</a></p>
+  <p><a href="https://www.worldwildlife.org/">Visit the World Wildlife foundation to learn or donate.</a></p>
+
+</div>
+</html>
