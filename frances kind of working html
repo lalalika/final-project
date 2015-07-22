@@ -1,0 +1,440 @@
+<html>
+	<head>
+		<title>Shark "Attack"</title>
+		<script src="http://cloud.github.com/downloads/processing-js/processing-js/processing-1.4.1.min.js"></script>
+		
+		<script type="text/processing" data-processing-target="mycanvas">
+
+	
+		var snowX = [];
+
+		var widthSnow;
+		var raisin1;
+		var raisinList = [];
+		
+		var raisin2;
+		var raisinList2 = [];
+
+
+		var positionX;
+		var positionY;
+		var x;
+		var score = 0;
+		var garbage = 0;
+
+
+
+
+		void setup() {
+		    size(1000, 350);
+
+		    var xSnow = -200;
+		    var xRaisin = -50;
+		    var xRaisin2 = -50;
+		  
+
+			
+		    for (var i = 0; i < 7; i++) { //creates a list of snow drifts
+
+		        widthSnow = round(random(200, 300));
+		        //(positionX, positionY, red, green, blue, speed, width, height)
+		        snowX.push(new Snow(xSnow, 400, 255, 182, 193, 3, widthSnow, random(203, 450)));
+		        xSnow = xSnow + widthSnow;
+		    }
+
+
+		    for (var i = 0; i < 7; i++) { //creates a list of raisins
+
+
+		        					//(positionX, positionY, r, g, b, size, speed)
+		        raisin1 = new Raisin1(xRaisin, 95, 102, 0, 102, random(15, 25), 3);
+		        raisinList.push(raisin1);
+		        xRaisin = xRaisin + 150; //makes raisins appear not on top of each other
+		       
+
+
+
+
+
+		    } //end of for loop
+
+			
+			for (var i = 0; i < 3; i++) { //creates a list of raisins
+
+
+		        					//(positionX, positionY, r, g, b, size, speed)
+		        raisin2 = new Raisin2(xRaisin2, 95, 128, 99, 120, random(15, 25), 3);
+		        raisinList2.push(raisin2);
+		        xRaisin2 = xRaisin2 + 250; //makes raisins appear not on top of each other
+
+
+
+
+
+		    } //end of for loop
+			
+			
+		} //setup
+
+		void draw() { //draws raisins and snow continuously
+			
+		    background(102, 178, 255);
+		    text("Score: " + score, 20, 35);
+		    text("Garbage: " + garbage, 20, 15);
+		    for (var i = 0; i < snowX.length; i++) {
+				var thisSnow = snowX[i];
+		        thisSnow.drawSnow();
+		        thisSnow.moveSnow();
+		
+			if (thisSnow.x < -thisSnow.w*.5){
+		        	thisSnow.x = thisSnow.x + 1500;
+		    }
+
+		    }
+		    
+		    for (var i = 0; i < raisinList.length; i++) {
+		    	
+		        var each_raisin = raisinList[i];
+		        each_raisin.drawRaisin1();
+		        each_raisin.moveRaisin1();
+		        
+		        if (each_raisin.positionX < -10 && !(each_raisin.size == 0)){
+		        
+		        	each_raisin.positionX = each_raisin.positionX + 1020;
+		        	//chinchillaMoved(image1.x);
+			//chinchillaMoved(image1.y);
+			
+		        
+		        	
+		        
+		        
+
+		    }
+		    if (each_raisin.positionX < -10 && (each_raisin.size == 0)){
+		        
+		        	each_raisin.size = random(15, 25);
+		        	each_raisin.positionX = each_raisin.positionX + 1020;
+		        	chinchillaMoved(image1.x);
+			chinchillaMoved(image1.y);
+		        	
+				}				
+		    
+		}  
+		    
+		     for (var i = 0; i < raisinList2.length; i++) {
+		        var each_raisin1 = raisinList2[i];
+		        each_raisin1.drawRaisin2();
+		        each_raisin1.moveRaisin2();
+		        
+		        if (each_raisin1.positionX < -20){
+		        	each_raisin1.positionX = each_raisin1.positionX + 1020;
+		        
+		        	
+		        
+		        if(each_raisin1.size == 0){
+		        	each_raisin1.size = random(15, 25);
+		        	
+				}				
+
+				
+
+		    }
+		    
+	
+		} 
+		    
+		    
+		    
+	
+	if (score == 100){
+		noLoop();
+		 background(102, 178, 255);
+		 hideImage('image1');
+		 hideImage('image2');
+		 showImage('image');
+		 showImage('image3');
+		 showImage('image4');
+		 showImage('support');
+		}
+	
+		else if(image1.x <= image2.x + 120 && image1.x >= image2.x - 120 && image1.y >= image2.y) {
+			noLoop();
+			background(102, 178, 255);
+			showImage('image5');
+			hideImage('image2');
+			hideImage('image3');
+			hideImage('image4');
+			hideImage('image1'); 
+			hideImage('support');
+		}
+		
+		else if(garbage == 30) {
+			noLoop();
+			background(102, 178, 255);
+			showImage('image5');
+			hideImage('image2');
+			hideImage('image3');
+			hideImage('image4');
+			hideImage('image1'); 
+			hideImage('support');
+		}
+				
+			else {
+				loop();
+				showImage('image1');
+				hideImage('image');
+				hideImage('image3');
+				hideImage('image4');
+				hideImage('image5');
+				hideImage('support');
+				}
+			
+
+
+		} //draw	
+
+		//functions to hide and show images for different parts of game
+		function showImage(id) {
+		    var img = document.getElementById(id);
+		    img.style.visibility = 'visible';
+		}
+
+		function hideImage(id) {
+		    var img = document.getElementById(id);
+		    img.style.visibility = 'hidden';
+		}
+
+
+
+
+
+		class Snow {
+		    var x;
+		    var y;
+		    var r;
+		    var g;
+		    var b;
+		    var s;
+		    var w;
+		    var h;
+
+		    //constructor has same name as the class
+		    Snow(positionX, positionY, red, green, blue, speed, width, height) {
+		        //fill up variables with values
+		        x = positionX;
+		        y = positionY;
+		        r = red;
+		        b = blue;
+		        g = green;
+		        s = speed;
+		        w = width;
+		        h = height;
+		    }
+
+		    void drawSnow() {
+		        noStroke(); //takes off outline
+		        fill(r, g, b);
+		        ellipse(x, y, w, h);
+
+
+		    }
+		    void moveSnow() {
+		        x = x - s;
+		    }
+
+
+		} //end of class Snow1
+
+		class Raisin1 {
+		    var positionX;
+		    var positionY;
+		    var r;
+		    var g;
+		    var b;
+		    var size;
+		    var speedX;
+
+
+
+		    // constructor has same name as the class
+		    Raisin1(x, y, red, green, blue, s, xSpeed) {
+		        // job of constructor is to give initial values to variables
+		        positionX = x;
+		        positionY = y;
+		        r = red;
+		        b = blue;
+		        g = green;
+		        size = s;
+		        speedX = xSpeed;
+
+
+		    }
+
+		    void drawRaisin1() {
+		        fill(r, g, b);
+		        ellipse(positionX, positionY, size * 1.5, size);
+
+		    }
+		    void moveRaisin1() {
+		        positionX = positionX - speedX;
+		    }
+
+		}
+
+
+		
+		
+		
+		class Raisin2 {
+		    var positionX;
+		    var positionY;
+		    var r;
+		    var g;
+		    var b;
+		    var size;
+		    var speedX;
+
+
+
+		    // constructor has same name as the class
+		    Raisin2(x, y, red, green, blue, s, xSpeed) {
+		        // job of constructor is to give initial values to variables
+		        positionX = x;
+		        positionY = y;
+		        r = red;
+		        b = blue;
+		        g = green;
+		        size = s;
+		        speedX = xSpeed;
+
+
+		    }
+
+		    void drawRaisin2() {
+		        fill(r, g, b);
+		        rect(positionX, positionY, size * 1.5, size);
+
+		    }
+		    void moveRaisin2() {
+		        positionX = positionX - speedX;
+		    }
+
+		}
+
+		
+void chinchillaMoved(image1Pos) { //takes raisins away
+
+	for (i = 0; i < raisinList.length; i++) {
+		var raisin = raisinList[i];
+		var g = raisinList.indexOf(raisin);
+	
+		if (image1Pos.y >= raisin.positionY - 60  && image1Pos.y <= raisin.positionY + 55 && (image1Pos.x >= (raisin.positionX) - 20 && image1Pos.x <= (raisin.positionX + 20)) && !(raisin.size == 0)) {
+			
+			raisin.size = 0;
+			
+			score = score + 1;
+				
+		}
+   
+
+	}
+   
+	for (i = 0; i < raisinList2.length; i++) {
+		var raisin2 = raisinList2[i];
+		var g = raisinList2.indexOf(raisin2);
+
+		if (image1Pos.y >= raisin2.positionY && (image1Pos.x >= (raisin2.positionX) - 20 && image1Pos.x <= (raisin2.positionX + 20)) && !(raisin2.size == 0)) {
+			
+			raisin2.size = 0;
+			
+			garbage = garbage + 1;
+				
+		}
+   
+
+	}
+		
+			
+}
+		
+ 
+ 
+		
+		
+		
+		
+
+		</script>
+		<script src="proyecto1.js"></script>
+		<script src="testMove.js"></script>
+		<style>
+			body {
+				background-color:#110959
+				}
+			p {
+				color: white;
+				font-size: 30px;
+				padding-top: 25px;
+				padding-right: 50px;
+				padding-bottom: 25px;
+				padding-left: 50px;
+			}
+
+			a {
+			font-size: 13 px;
+			/* unvisited link */
+			a:link {
+				color: white;
+			}
+
+			/* visited link */
+			a:visited {
+				color: #00FF00;
+			}
+
+			/* mouse over link */
+			a:hover {
+				color: #FF00FF;
+			}
+
+			/* selected link */
+			a:active {
+				color: #0000FF;
+			}
+			}
+			
+			
+	#mycanvas {
+		width: 100%;
+		text-align:center;
+		}
+
+	canvas {
+		display: inline;
+		}
+		</style>
+	
+	
+	</head>
+	<body  onload="docReady();" onkeydown="" onkeyup="">
+		<canvas id="mycanvas" z-index="-1" position="absolute"></canvas>
+		
+		<img id="image5" z-index="1" src="Loser.png" style="position:absolute;left:290; top:10;" height="500" width="550">
+		<img id="image4" z-index="1" src="GERTRUDEmit.png" style="position:absolute;left:490; top:51;" height="100" width="150">
+		<img id="image3" z-index="1" src="GameOver.png" style="position:absolute;left:600; top:100;" height="300" width="300">
+		<img id="image" z-index="1" src="raisin.png" style="position:absolute;left:200; top:100;" height="300" width="300">
+		<img id="image1" z-index="1" src="Chinchilla.png" style="position:absolute;left:150; top:300;" height="100" width="139">
+		<div><img id="image2" z-index="1" src="GERTRUDE_3.png" style="position:absolute;left:-50; top:300;" height="100" width="150"></div>
+		
+		
+
+	</body>
+	<p> This is the Shark "Attack" the game! You are the chinchilla. Use the arrow keys to move. The up key jumps. Go right with the right. Go left with the left, but that's kind of unnecessary. No down. 100 raisins equals a victory. Jump to get them. Avoid the shark or you will faint. It will "get" you. Also, avoid the garbage (squares) or you will die after eating 30 pieces! </p> 
+<div id = "support"">
+<p> Just like Gertrude the shark, sharks are not inherently evil. We need to fix the misconceptions people have about these animals! We must support sharks as they are endangered, as well other endangered species - chinchillas too! Click on the links below to sign petitions and learn about the cause. Anyone can help make change. </p>
+	
+	<p><a href="https://www.change.org/search?q=sharks"">Visit this website to make change by signing petitions.</a></p>
+  	<p><a href="http://www.seethewild.org/shark-threats/">Read this article to learn more about shark endangerment.</a></p>
+  	<p><a href="https://www.worldwildlife.org/">Visit the World Wildlife foundation to learn or donate.</a></p>
+
+</html>
